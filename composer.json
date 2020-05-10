@@ -1,0 +1,29 @@
+{
+  "name": "ingelby/twelvedata",
+  "description": "Yii2 Twelvedata Wrapper",
+  "type": "library",
+  "license": "Proprietary",
+  "authors": [
+    {
+      "name": "George Hallam",
+      "email": "george.hallam@ingelby.com.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Ingelby\\Twelvedata\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=7.4.0",
+    "ingelby/toolbox": "dev-master"
+  },
+  "require-dev": {
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:ingelby/toolbox.git"
+    }
+  ]
+}
