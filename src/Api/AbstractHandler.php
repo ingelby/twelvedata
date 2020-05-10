@@ -2,19 +2,17 @@
 
 namespace Ingelby\Twelvedata\Api;
 
-use common\helpers\LoggingHelper;
-use Ingelby\Twelvedata\Exceptions\TwelvedataRateLimitException;
-use Ingelby\Twelvedata\Exceptions\TwelvedataResponseException;
-use ingelby\toolbox\constants\HttpStatus;
 use ingelby\toolbox\services\inguzzle\exceptions\InguzzleClientException;
 use ingelby\toolbox\services\inguzzle\exceptions\InguzzleInternalServerException;
 use ingelby\toolbox\services\inguzzle\exceptions\InguzzleServerException;
 use ingelby\toolbox\services\inguzzle\InguzzleHandler;
+use Ingelby\Twelvedata\Exceptions\TwelvedataRateLimitException;
+use Ingelby\Twelvedata\Exceptions\TwelvedataResponseException;
 use Ingelby\Twelvedata\Models\AbstractTwelveDataModel;
 use yii\caching\TagDependency;
 use yii\helpers\Json;
 
-class AbstractHandler extends InguzzleHandler
+abstract class AbstractHandler extends InguzzleHandler
 {
     protected const DEFAULT_URL = 'https://api.twelvedata.com';
     protected const CACHE_KEY = 'TWELVEDATA_';
@@ -59,7 +57,7 @@ class AbstractHandler extends InguzzleHandler
      * @throws TwelvedataResponseException
      * @throws TwelvedataRateLimitException
      */
-    public function get(string $uri, array $parameters)
+    public function query(string $uri, array $parameters)
     {
         $standardParameters = [
             'apikey' => $this->apiKey,
@@ -108,7 +106,7 @@ class AbstractHandler extends InguzzleHandler
                 continue;
             }
 
-            $singularResponse[$symbol] = $this->map($singularResponse);
+            $bulkMappedResponse[$symbol] = $this->map($singularResponse);
         }
 
         return $bulkMappedResponse;

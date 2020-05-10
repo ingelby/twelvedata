@@ -20,7 +20,7 @@ class QuoteHandler extends AbstractHandler
      */
     public function getQuote(string $symbol): Quote
     {
-        $response = $this->get(
+        $response = $this->query(
             static::QUOTE,
             [
                 'symbol' => $symbol,
@@ -41,7 +41,7 @@ class QuoteHandler extends AbstractHandler
             return [$this->getQuote(current($symbols))];
         }
 
-        $bulkResponse = $this->get(
+        $bulkResponse = $this->query(
             static::QUOTE,
             [
                 'symbol' => implode(',', $symbols),

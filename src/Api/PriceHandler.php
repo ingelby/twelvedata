@@ -20,7 +20,7 @@ class PriceHandler extends AbstractHandler
      */
     public function getPrice(string $symbol): Price
     {
-        $response = $this->get(
+        $response = $this->query(
             static::PRICE,
             [
                 'symbol' => $symbol,
@@ -42,7 +42,7 @@ class PriceHandler extends AbstractHandler
             return [$this->getPrice(current($symbols))];
         }
 
-        $bulkResponse = $this->get(
+        $bulkResponse = $this->query(
             static::PRICE,
             [
                 'symbol' => implode(',', $symbols),

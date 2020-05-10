@@ -58,6 +58,10 @@ class Quote extends AbstractTwelveDataModel
      */
     public $averageVolume;
 
+    /**
+     * @var Price|null 
+     */
+    protected ?Price $price = null;
 
     /**
      * @return array
@@ -111,5 +115,21 @@ class Quote extends AbstractTwelveDataModel
     public function isNegative(): bool
     {
         return !$this->isPositive();
+    }
+
+    /**
+     * @return Price|null
+     */
+    public function getPrice(): ?Price
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param Price $price
+     */
+    public function setPrice(Price $price): void
+    {
+        $this->price = $price;
     }
 }

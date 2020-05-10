@@ -7,12 +7,12 @@ namespace Ingelby\Twelvedata\Models;
 use Carbon\Carbon;
 use yii\base\Model;
 
-abstract class TimeSeries extends Model
+class TimeSeries extends AbstractTwelveDataModel
 {
     /**
      * @var Carbon
      */
-    public $date;
+    public $dateTime;
 
     /**
      * @var string
@@ -52,6 +52,7 @@ abstract class TimeSeries extends Model
         return [
             [
                 [
+                    'dateTime',
                     'open',
                     'high',
                     'low',
@@ -68,5 +69,8 @@ abstract class TimeSeries extends Model
      * @param string $format
      * @return string
      */
-    abstract public function getDateInFormat(string $format): string;
+    public function getDateInFormat(string $format): string
+    {
+        return $this->dateTime->format($format);
+    }
 }

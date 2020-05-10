@@ -10,7 +10,7 @@ class ChartJsHelper
 {
 
     /**
-     * @param array  $timeSeries
+     * @param TimeSeries[]  $timeSeries
      * @param float  $openingValue
      * @param string $dateFormat
      * @param bool   $reverseValues
@@ -39,7 +39,7 @@ class ChartJsHelper
     }
 
     /**
-     * @param array  $timeSeries
+     * @param TimeSeries[]  $timeSeries
      * @param string $dateFormat
      * @param bool   $reverseValues
      * @return [][]
@@ -56,7 +56,7 @@ class ChartJsHelper
         ];
         foreach ($timeSeries as $series) {
             $mappedValues['data'][] = $series->open;
-            $mappedValues['labels'][] = $series->getDateInFormat($dateFormat) . ' - ' . $series->open;
+            $mappedValues['labels'][] = $series->getDateInFormat($dateFormat);
         }
         return $mappedValues;
     }
