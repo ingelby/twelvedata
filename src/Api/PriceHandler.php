@@ -31,6 +31,7 @@ class PriceHandler extends AbstractHandler
     }
 
     /**
+     * Please note caching is done on a less granular level
      * @param string[] $symbols
      * @return Price[]
      * @throws TwelvedataRateLimitException

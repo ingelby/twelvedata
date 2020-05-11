@@ -31,7 +31,7 @@ abstract class AbstractHandler extends InguzzleHandler
     /**
      * @var int
      */
-    protected $cacheTimeout = 600;
+    protected $cacheTimeout = 15 * 60;
 
     /**
      * AbstractHandler constructor.
@@ -59,20 +59,20 @@ abstract class AbstractHandler extends InguzzleHandler
      */
     public function query(string $uri, array $parameters)
     {
+        $cacheKey = static::CACHE_KEY . $uri . md5(Json::encode($parameters));
+
         $standardParameters = [
             'apikey' => $this->apiKey,
         ];
-        $finalParameters = array_merge($standardParameters, $parameters);
 
-        $cacheKey = static::CACHE_KEY . $uri . md5(Json::encode($finalParameters));
+        $finalParameters = array_merge($standardParameters, $parameters);
 
         return \Yii::$app->cache->getOrSet(
             $cacheKey,
-            function () use ($finalParameters, $uri) {
+            function () use ($finalParameters, $uri, $cacheKey) {
+                \Yii::info('Caching key:' . $cacheKey);
                 try {
-                    $response = $this->get($uri, $finalParameters);
-
-                    return $response;
+                    return $this->get($uri, $finalParameters);
                 } catch (InguzzleClientException | InguzzleInternalServerException | InguzzleServerException $e) {
                     if (429 === $e->statusCode) {
                         throw new TwelvedataRateLimitException($e->statusCode, 'Rate limit reached', 0, $e);
