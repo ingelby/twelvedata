@@ -30,6 +30,7 @@ class QuoteHandler extends AbstractHandler
     }
 
     /**
+     * Please note caching is done on a less granular level
      * @param string[] $symbols
      * @return Quote[]
      * @throws TwelvedataRateLimitException
