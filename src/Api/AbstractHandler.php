@@ -72,13 +72,21 @@ abstract class AbstractHandler extends InguzzleHandler
             function () use ($finalParameters, $uri, $cacheKey) {
                 \Yii::info('Caching key:' . $cacheKey);
                 try {
-                    return $this->get($uri, $finalParameters);
+                    $response = $this->get($uri, $finalParameters);
                 } catch (InguzzleClientException | InguzzleInternalServerException | InguzzleServerException $e) {
                     if (429 === $e->statusCode) {
                         throw new TwelvedataRateLimitException($e->statusCode, 'Rate limit reached', 0, $e);
                     }
                     throw new TwelvedataResponseException($e->statusCode, 'Error contacting Twelevedata', 0, $e);
                 }
+
+                if (array_key_exists('status', $response) && 'error' === $response['status']) {
+                    throw new TwelvedataResponseException(
+                        $response['code'] ?? 400,
+                        $response['message'] ?? 'Unknown error'
+                    );
+                }
+                return $response;
             },
             $this->cacheTimeout,
             new TagDependency(['tags' => static::CACHE_TAG_DEPENDENCY])
